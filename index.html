@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input id="display" class="form-control" type="text">
+                    <button id="random-btn" class="generate-btn">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input id="display1" class="form-control" type="text">
+                    <div class="numbers">
+                        <div class="calc-body">
+                            <div class="calc-button-row">
+                              <div class="button" onclick="displayNumber('7')">7</div>
+                              <div class="button" onclick="displayNumber('8')">8</div>
+                              <div class="button" onclick="displayNumber('9')">9</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button" onclick="displayNumber('4')">4</div>
+                              <div class="button" onclick="displayNumber('5')">5</div>
+                              <div class="button" onclick="displayNumber('6')">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button" onclick="displayNumber('1')">1</div>
+                              <div class="button" onclick="displayNumber('2')">2</div>
+                              <div class="button" onclick="displayNumber('3')">3</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button" onclick="removeNumber()">&lt;</div>
+                                <div class="button" onclick="displayNumber('0')">0</div>
+                                <div class="button" onclick="clearNumber()">C</div>
+                            </div>
+                            <div>
+                                <button id="submitBtn" type="submit" class="submit-btn">Submit</button>
+                                <p class="action-left">3 try left</p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="notify-section">
+            <p id="pinNotMatch" class="notify">❌ Pin Didn't Match, Please try again</p>
+            <p id="pinMatch" class="notify">✅ Pin Matched... Secret door is opening for you</p>
+        </div>
+    </div>
+    <script>
+        //Create random number
+        const randomBtn = document.getElementById("random-btn");
+        randomBtn.addEventListener("click", function(){
+            const randomNumber= Math.round(Math.random()*9000 + 1000);
+           document.getElementById("display").value=randomNumber;
+           document.getElementById("pinMatch").style.display="none";
+            document.getElementById("pinNotMatch").style.display="none";
+            clearNumber();
+        
+        })
+            //Show digit in input field
+            function displayNumber(num){
+                document.getElementById("display1").value += num;
+                
+            }
+
+            //Match two random number
+            const submitBtn = document.getElementById("submitBtn");
+
+            submitBtn.addEventListener("click",function(){
+                const totalRandomNum= document.getElementById("display").value;
+                const matchRandomNum = document.getElementById("display1").value;
+
+                if (totalRandomNum === matchRandomNum) {
+                    document.getElementById("pinMatch").style.display="inline";
+                    document.getElementById("pinNotMatch").style.display="none";
+                }
+                else{
+                    document.getElementById("pinNotMatch").style.display="inline";
+                    document.getElementById("pinMatch").style.display="none";
+                }
+            })
+
+            //Remove digit one by one function
+
+            function removeNumber(){
+               const totalNumber= document.getElementById("display1").value;
+               const sliceNumber = totalNumber.toString().slice(0,-1);
+               document.getElementById("display1").value=sliceNumber;
+            }
+
+            //Remove all digit function
+            function clearNumber(){
+                document.getElementById("display1").value ="";
+            }
+        
+    </script>
+</body>
+</html>
